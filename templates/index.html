@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+
+        <title>LookAround Bandung</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{{ url_for('static', filename = 'style.css') }}">
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Julius+Sans+One" rel="stylesheet">
+
+    </head>
+    <body>
+
+        <div class="container" id="container">
+            <div class="upper-container">
+                <div class="header-container">
+                    <div class="title">
+                        <h1>Tugas Kecil Strategi A*</h1>
+                    </div>
+                </div>
+
+                <div class="info-container">
+                	<div class="list-container" id="vertex-container">
+                		<span>Vertex</span>
+                		<ol class="list" id="vertex-list">
+                			
+                		</ol>
+                	</div>
+
+                	<div class="list-container" id="edge-container">
+                		<span>Edge</span>
+                		<ol class="list" id="edge-list">
+                			
+                		</ol>
+                	</div>
+
+                	<div class="input-container">
+                		<div class="input" id="start-input">
+                			<span>Start</span>
+                			<select class="select" id="start-select">
+                				
+                			</select>
+                		</div>
+
+                		<div class="input" id="end-input">
+                			<span>End</span>
+                			<select class="select" id="end-select">
+                				
+                			</select>
+                		</div>
+                	</div>
+
+                	<div class="submit-container">
+                		<span id="shortest-path">Click to find shortest path</span>
+                		<button class="button" id="submit">GO!</button>
+
+                		<button class="button" id="reset">RESET</button>
+                	</div>
+                </div>
+            </div>
+
+            <!-- Map view -->
+            <div class="map" id="map">
+
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.2.0/knockout-min.js"></script>
+                <script type="text/javascript" src="{{ url_for('static', filename = 'jquery.js') }}"></script>
+				<script type="text/javascript" src="{{ url_for('static', filename = 'script.js') }}"></script>
+                <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_ISGEEd9PkJBDgrU8usk8F7quBeejHFI&callback=initMap&" async defer onerror="mapError()" type="text/javascript"></script>
+
+            </div>
+
+        </div>
+
+    </body>
+
+</html>
