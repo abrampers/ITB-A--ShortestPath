@@ -20,6 +20,8 @@ var markers = [];
 var polylines = [];
 var shortestPath = null;
 var currentMarker = null;
+var adjacencyMatrix = {};
+var distanceMatrix = {};
 
 function initMap() {
   var itbPos = {lat: -6.89148, lng: 107.6106591};
@@ -357,6 +359,8 @@ function createEdge(nodeOne, nodeTwo) {
     });
 
     updateEdgeList();
+  } else {
+    alert("Path already selected");
   }
 }
 
@@ -365,6 +369,10 @@ function updateEdgeList() {
   for (var i = 0; i < polylines.length; i++) {
     $(`<li>${polylines[i].data.first} -- ${polylines[i].data.second}</li>`).appendTo(edgeList)
   }
+}
+
+function removeEdgeList() {
+  $(edgeList).empty();
 }
 
 function updateVertexPicker() {
@@ -376,6 +384,11 @@ function updateVertexPicker() {
   }
 }
 
+function removeVertexPicker() {
+  $(startVertexPicker).empty();
+  $(endVertexPicker).empty();
+}
+
 function updateVertexList() {
   $(vertexList).empty();
   for(var i = 0; i < markers.length; i++) {
@@ -383,14 +396,16 @@ function updateVertexList() {
   }
 }
 
+function removeVertexList() {
+  $(vertexList).empty();
+}
+
 function connected(nodeOne, nodeTwo) {
   var found = false;
   for (var i = 0; i < polylines.length; i++) {
     if((polylines[i]['data']['first'] == nodeOne.label && polylines[i]['data']['second'] == nodeTwo.label) || 
         (polylines[i]['data']['first'] == nodeTwo.label && polylines[i]['data']['second'] == nodeOne.label)) {
-      console.log("ketemu")
       found = true;
-      alert("Path already selected")
       break;
     }
   }
@@ -422,10 +437,52 @@ function removePolylines() {
     polylines = [];
 }
 
+function getDistance(latlng1, latlng2) {
+  return google.maps.geometry.spherical.computeDistanceBetween(latlng1, latlng2);
+}
+
+function createAdjacencyDistanceMatrix() {
+  distanceMatrix = {};
+  adjacencyMatrix = {};
+  for(var i = 0; i < markers.length; i++) {
+    distanceMatrix[i] = {};
+    adjacencyMatrix[i] = {};
+    for(var j = 0; j < markers.length; j++) {
+      distanceMatrix[i][j] = getDistance(markers[i].data.position, markers[j].data.position);
+      if(connected(markers[i].marker, markers[j].marker)) {
+        adjacencyMatrix[i][j] = 1;
+      } else {
+        adjacencyMatrix[i][j] = 0;
+      }
+    }
+  }
+}
+
+function getShortestPath(startNode, endNode) {
+  createAdjacencyDistanceMatrix();
+  var payload = JSON.stringify({
+    length: markers.length,
+    adjMat: adjacencyMatrix,
+    distMat: distanceMatrix,
+    start: startNode,
+    end: endNode
+  });
+
+  console.log(payload);
+
+  $.post('go', payload, function() {
+    console.log("hehe");
+  })
+}
+
 /* On Click */
 $('#reset').on('click', function() {
+  console.log("reset called")
   removeMarkers();
   removePolylines();
+  removeVertexList();
+  removeVertexPicker();
+  removeEdgeList();
 
   if (shortestPath != null) {
     shortestPath.setMap(null);
@@ -434,6 +491,10 @@ $('#reset').on('click', function() {
 });
 
 $('#submit').on('click', function() {
-  console.log("eeq")
+  console.log(adjacencyMatrix)
+  console.log(distanceMatrix)
+  var startNodeLabel = $('#start-select').find(":selected").val();
+  var endNodeLabel = $('#end-select').find(":selected").val();
+  getShortestPath(startNodeLabel, endNodeLabel);
   // Insert here to kirim data ke flask
 });
