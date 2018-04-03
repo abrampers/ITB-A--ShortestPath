@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, jsonify
+import astar
 
 app = Flask(__name__)
 
@@ -7,7 +8,7 @@ def hello():
 	return render_template("index.html")
 
 @app.route("/go", methods=["POST"])
-def astar():
+def execute_astar():
 	data = request.get_json(force=True)
 	print(data)
 
