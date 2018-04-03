@@ -22,9 +22,11 @@ def execute_astar():
 	print("start \n {}".format(start))
 	print("end \n {}".format(end))
 
+	path_tuple = astar.astar(distanceMatrix, adjacencyMatrix, start, end)
+
 	return jsonify({
-		'path': # Masukin sini wang pathnya, janlup kabari ya wujudnya kaya apa,
-		'dist': # Masukin sini juga wang distnya
+		'path': '-'.join(str(x) for x in path_tuple[1])
+		'dist': path_tuple[0]
 	})
 
 if __name__ == '__main__':
