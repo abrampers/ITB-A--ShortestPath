@@ -6,7 +6,7 @@ def astar(distance_mat, is_connected, start_node, end_node):
 	# Initialize q with the start node
 	for dest_node in range(0, len(distance_mat)) :
 		if is_connected[start_node][dest_node]:
-			heappush(q, (distance_mat[start_node][dest_node]) + distance_mat[dest_node][end_node], (start_node, dest_node))
+			heappush(q, ((distance_mat[start_node][dest_node]) + distance_mat[dest_node][end_node], (start_node, dest_node)))
 	# Start the A* algorithm
 	while q: # While there are still potential path to be explored...
 		if q[0][1][-1] == end_node: break # If the shortest path yet is able to reach the end node, break

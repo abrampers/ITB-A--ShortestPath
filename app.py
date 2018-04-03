@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify
-import astar
+from astar import astar
 
 app = Flask(__name__)
 
@@ -22,10 +22,12 @@ def execute_astar():
 	print("start \n {}".format(start))
 	print("end \n {}".format(end))
 
-	path_tuple = astar.astar(distanceMatrix, adjacencyMatrix, start, end)
+	path_tuple = astar(distanceMatrix, adjacencyMatrix, int(start), int(end))
+
+	print(path_tuple)
 
 	return jsonify({
-		'path': '-'.join(str(x) for x in path_tuple[1]),
+		'path': path_tuple[1],
 		'dist': path_tuple[0]
 	})
 
