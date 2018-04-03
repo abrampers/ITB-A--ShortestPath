@@ -442,19 +442,21 @@ function getDistance(latlng1, latlng2) {
 }
 
 function createAdjacencyDistanceMatrix() {
-  distanceMatrix = {};
-  adjacencyMatrix = {};
+  distanceMatrix = [];
+  adjacencyMatrix = [];
   for(var i = 0; i < markers.length; i++) {
-    distanceMatrix[i] = {};
-    adjacencyMatrix[i] = {};
+    tempDistance = [];
+    tempAdjacency = [];
     for(var j = 0; j < markers.length; j++) {
-      distanceMatrix[i][j] = getDistance(markers[i].data.position, markers[j].data.position);
+      tempDistance.push(getDistance(markers[i].data.position, markers[j].data.position));
       if(connected(markers[i].marker, markers[j].marker)) {
-        adjacencyMatrix[i][j] = 1;
+        tempAdjacency.push(1);
       } else {
-        adjacencyMatrix[i][j] = 0;
+        tempAdjacency.push(0);
       }
     }
+    distanceMatrix.push(tempDistance);
+    adjacencyMatrix.push(tempAdjacency);
   }
 }
 
