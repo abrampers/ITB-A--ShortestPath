@@ -470,8 +470,9 @@ function getShortestPath(startNode, endNode) {
 
   console.log(payload);
 
-  $.post('go', payload, function() {
+  $.post('go', payload, function(data) {
     console.log("hehe");
+    console.log(data);
   })
 }
 

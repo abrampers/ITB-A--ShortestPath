@@ -21,10 +21,11 @@ def astar():
 	print("start \n {}".format(start))
 	print("end \n {}".format(end))
 
-	return jsonify({
-		'path': # Masukin sini wang pathnya, janlup kabari ya wujudnya kaya apa,
-		'dist': # Masukin sini juga wang distnya
-	})
+	return jsonify({'a': (1,2,3)})
+	# return jsonify({
+	# 	'path': # Masukin sini wang pathnya, janlup kabari ya wujudnya kaya apa,
+	# 	'dist': # Masukin sini juga wang distnya
+	# })
 
 if __name__ == '__main__':
 	app.debug=True
