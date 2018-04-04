@@ -509,7 +509,7 @@ function getShortestPath(startNode, endNode) {
     drawAllPolylines();
     
     for(var i = 0; i < pathNode.length - 1; i++) {
-      drawPath(pathNode[i], pathNode[i + 1], "#4f689c")
+      drawPath(pathNode[i], pathNode[i + 1], "#e00000")
     }
   })
 }

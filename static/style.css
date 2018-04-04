@@ -72,6 +72,7 @@ input[type=text] {
 }
 
 .header-container {
+	display: flex;
 	background-color: #001942;
     align-items: center;
     flex-basis: : 24px;
@@ -81,6 +82,10 @@ input[type=text] {
 
 .title {
 	margin: 10px;
+}
+
+#tulisan-nama {
+	margin-left: 1000px;
 }
 
 .info-container {
