@@ -437,6 +437,31 @@ function removePolylines() {
     polylines = [];
 }
 
+function drawPath(nodeOne, nodeTwo, color) {
+  var path = new google.maps.Polyline({
+      path: [nodeOne.position, nodeTwo.position],
+      strokeColor: color,
+      strokeOpacity: 1.0,
+      strokeWeight: 2
+    });
+
+  path.setMap(map);
+}
+
+function drawAllPolylines() {
+  for(var i = 0; i < polylines.length; i++) {
+    var nodeOne = markers.find(function(x) { return x['marker'].label == polylines[i].data.first });
+    var nodeTwo = markers.find(function(x) { return x['marker'].label == polylines[i].data.second });
+    drawPath(nodeOne.marker, nodeTwo.marker, "d5edff");
+  }
+}
+
+function removePolylinesFromMap() {
+  for (var i = 0; i < polylines.length; i++) {
+      polylines[i]['path'].setMap(null);
+    }
+}
+
 function getDistance(latlng1, latlng2) {
   return google.maps.geometry.spherical.computeDistanceBetween(latlng1, latlng2);
 }
@@ -473,8 +498,19 @@ function getShortestPath(startNode, endNode) {
   console.log(payload);
 
   $.post('go', payload, function(data) {
-    console.log("hehe");
     console.log(data);
+
+    removePolylinesFromMap();
+    pathNode = [];
+    for(var i = 0; i < data['path'].length; i++) {
+      pathNode.push(markers[data['path'][i]].marker);
+    }
+
+    drawAllPolylines();
+    
+    for(var i = 0; i < pathNode.length - 1; i++) {
+      drawPath(pathNode[i], pathNode[i + 1], "#4f689c")
+    }
   })
 }
 
